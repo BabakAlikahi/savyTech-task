@@ -5,6 +5,17 @@ function Header() {
       <h3 className="text-2xl">
         Candidate : <span className="text-blue-700">Babak Alikahi</span>
       </h3>
+
+      <p className="text-xl">
+        github link :{" "}
+        <a
+          href="https://github.com/BabakAlikahi/savyTech-task"
+          target="_blank"
+          className="text-gray-700"
+        >
+          github link
+        </a>
+      </p>
     </div>
   );
 }
