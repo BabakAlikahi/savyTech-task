@@ -1,9 +1,10 @@
 import { Pen, Trash } from "lucide-react";
 
+import { formatDate } from "@/lib/hooks/hooks";
 import { Button } from "@/components/ui/button";
 import type { TodoType } from "../types/todo-types";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { useUiStore } from "../store/todo-ui-store";
+import { TableCell, TableRow } from "@/components/ui/table";
 
 type Props = {
   number: number;
@@ -18,8 +19,8 @@ function TodoItem({ number, item }: Props) {
       <TableCell className="font-medium">{number}</TableCell>
       <TableCell>{item.title}</TableCell>
       <TableCell>{item.subtitle}</TableCell>
-      <TableCell>{item.createdAt}</TableCell>
-      <TableCell>{item.updatedAt ?? "----"}</TableCell>
+      <TableCell>{formatDate(item.createdAt)}</TableCell>
+      <TableCell>{item.updatedAt ? formatDate(item.updatedAt) : "----"}</TableCell>
       <TableCell className="flex items-center justify-center gap-2 text-right">
         <Button
           onClick={() => {

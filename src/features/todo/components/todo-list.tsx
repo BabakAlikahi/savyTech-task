@@ -1,19 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { useTodoStore } from "../store/todo-store";
+import { useUiStore } from "../store/todo-ui-store";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import EmptyTodo from "./empty-todo";
-import TodoForm from "./todo-form";
-import TodoConfirmDialog from "./todo-confirm-dialog";
-import { useTodoStore } from "../store/todo-store";
 import TodoItem from "./todo-item";
-import { useUiStore } from "../store/todo-ui-store";
+import TodoForm from "./todo-form";
+import EmptyTodo from "./empty-todo";
+import TodoDialog from "./todo-dialog";
+import TodoConfirmDialog from "./todo-confirm-dialog";
 
 function TodoList() {
   const tableHeader = ["title", "subtitle", "createdAt", "updatedAt", "action"];
-
-  const handleClick = () => {
-    console.log("click");
-  };
 
   const { items } = useTodoStore();
   const { openCreateForm } = useUiStore();
@@ -54,14 +51,16 @@ function TodoList() {
                   className="text-center"
                   colSpan={6}
                 >
-                  <EmptyTodo onAction={handleClick} />
+                  <EmptyTodo onAction={openCreateForm} />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <TodoForm />
+      <TodoDialog>
+        <TodoForm />
+      </TodoDialog>
       <TodoConfirmDialog />
     </>
   );

@@ -1,3 +1,6 @@
+import { toast } from "sonner";
+import { useTodoStore } from "../store/todo-store";
+import { useUiStore } from "../store/todo-ui-store";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,9 +11,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useUiStore } from "../store/todo-ui-store";
-import { useTodoStore } from "../store/todo-store";
-import { toast } from "sonner";
 
 function TodoConfirmDialog() {
   const { deleteDialogOpen, closeDeleteDialog, selectedItem } = useUiStore();
@@ -29,8 +29,8 @@ function TodoConfirmDialog() {
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>This action can’t be undone.</AlertDialogDescription>
+          <AlertDialogTitle>Delete Task: "{selectedItem?.title}" ?</AlertDialogTitle>
+          <AlertDialogDescription>This action is permanent and cannot be undone. Are you sure you want to proceed?</AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
