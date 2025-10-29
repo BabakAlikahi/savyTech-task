@@ -7,23 +7,43 @@ import { todoSchema, type TodoFormValues } from "../schema/todo-schema";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 import CustomInput from "@/features/form/custom-input";
+import { useUiStore } from "../store/todo-ui-store";
+import { useTodoStore } from "../store/todo-store";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 function TodoForm() {
-  const { control, handleSubmit } = useForm<TodoFormValues>({
+  const { itemFormOpen, closeItemForm, selectedItem } = useUiStore();
+  const { addItem, updateItem } = useTodoStore();
+  const { control, handleSubmit, reset } = useForm<TodoFormValues>({
     resolver: zodResolver(todoSchema),
-    defaultValues: { title: "", subtitle: "" },
+    defaultValues: selectedItem ?? { title: "", subtitle: "" },
   });
 
+  useEffect(() => {
+    reset(selectedItem ?? { title: "", subtitle: "" });
+  }, [selectedItem]);
+
   const onSubmit = (data: TodoFormValues) => {
-    console.log(data);
+    if (selectedItem) {
+      updateItem(selectedItem.id, data);
+      toast.success("Item updated ✅");
+    } else {
+      addItem(data);
+      toast.success("Item created 🎉");
+    }
+    closeItemForm();
   };
 
   return (
-    <Dialog open={true}>
+    <Dialog
+      open={itemFormOpen}
+      onOpenChange={closeItemForm}
+    >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{true ? "Edit Item" : "Create Item"}</DialogTitle>
-          <DialogDescription>{true ? "lorem edit" : "lorem create"}</DialogDescription>
+          <DialogTitle>{selectedItem  ? "Edit Item" : "Create Item"}</DialogTitle>
+          <DialogDescription>{selectedItem  ? "lorem edit" : "lorem create"}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,7 +63,7 @@ function TodoForm() {
               type="submit"
               className="w-full"
             >
-              {true ? "Update" : "Create"}
+              {selectedItem  ? "Update" : "Create"}
             </Button>
           </FieldGroup>
         </form>

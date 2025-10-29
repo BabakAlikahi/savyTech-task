@@ -1,10 +1,12 @@
-import { Pen, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import EmptyTodo from "./empty-todo";
 import TodoForm from "./todo-form";
 import TodoConfirmDialog from "./todo-confirm-dialog";
+import { useTodoStore } from "../store/todo-store";
+import TodoItem from "./todo-item";
+import { useUiStore } from "../store/todo-ui-store";
 
 function TodoList() {
   const tableHeader = ["title", "subtitle", "createdAt", "updatedAt", "action"];
@@ -13,10 +15,13 @@ function TodoList() {
     console.log("click");
   };
 
+  const { items } = useTodoStore();
+  const { openCreateForm } = useUiStore();
+
   return (
     <>
       <div className="mb-4 flex justify-end">
-        <Button>Create Item</Button>
+        <Button onClick={openCreateForm}>Create Item</Button>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
@@ -35,25 +40,14 @@ function TodoList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {true ? (
-              <TableRow className="text-center">
-                <TableCell className="font-medium">{"num"}</TableCell>
-                <TableCell>{"item.title"}</TableCell>
-                <TableCell>{"item.subtitle"}</TableCell>
-                <TableCell>{"item.createdAt"}</TableCell>
-                <TableCell>{"item.updatedAt ?? ----"}</TableCell>
-                <TableCell className="flex items-center justify-center gap-2 text-right">
-                  <Button size={"icon"}>
-                    <Pen />
-                  </Button>
-                  <Button
-                    size={"icon"}
-                    variant={"destructive"}
-                  >
-                    <Trash />
-                  </Button>
-                </TableCell>
-              </TableRow>
+            {items.length > 0 ? (
+              items.map((item, index) => (
+                <TodoItem
+                  key={index}
+                  number={index + 1}
+                  item={item}
+                />
+              ))
             ) : (
               <TableRow>
                 <TableCell
@@ -67,8 +61,8 @@ function TodoList() {
           </TableBody>
         </Table>
       </div>
-      {/* <TodoForm /> */}
-      {/* <TodoConfirmDialog /> */}
+      <TodoForm />
+      <TodoConfirmDialog />
     </>
   );
 }
