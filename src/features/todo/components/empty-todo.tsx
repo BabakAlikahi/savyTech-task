@@ -17,7 +17,7 @@ function EmptyTodo({ onAction }: Props) {
         <EmptyDescription>You havent created any items yet. Get started by creating your first item.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button onClick={onAction}>Create Project</Button>
+        <Button onClick={onAction}>Create Item</Button>
       </EmptyContent>
     </Empty>
   );
