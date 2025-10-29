@@ -26,7 +26,7 @@ export const useTodoStore = create<StoreState>()(
         })),
       updateItem: (id, data) =>
         set((state) => ({
-          items: state.items.map((item) => (item.id === id ? { ...item, ...data } : item)),
+          items: state.items.map((item) => (item.id === id ? { ...item, ...data, updatedAt: new Date().toISOString() } : item)),
         })),
       deleteItem: (id) =>
         set((state) => ({
